@@ -31,11 +31,51 @@
 
 ## 설치
 
+한 군데에 받아두고 각 CLI 스킬 폴더에 링크하는 게 제일 편하다. `SKILL.md` 형식은 아래 CLI들이 전부 같이 읽는다.
+
 ```bash
-git clone https://github.com/flyingsquirrel0419/jwejweiya-skill.git ~/.claude/skills/jwejweiya
+git clone https://github.com/flyingsquirrel0419/jwejweiya-skill.git ~/skills/jwejweiya
+
+for d in ~/.claude/skills ~/.codex/skills ~/.config/opencode/skills ~/.pi/agent/skills ~/.gemini/skills; do
+  mkdir -p "$d"
+  [ -e "$d/jwejweiya" ] || ln -s ~/skills/jwejweiya "$d/jwejweiya"
+done
 ```
 
-또는 `SKILL.md`를 `~/.claude/skills/jwejweiya/SKILL.md`에 두면 된다.
+심볼릭 링크가 안 되는 환경(윈도우 등)이면 폴더째 복사하면 된다.
+
+```bash
+cp -r ~/skills/jwejweiya ~/.codex/skills/jwejweiya
+```
+
+### CLI별 경로
+
+| CLI | 개인 스킬 | 프로젝트 스킬 |
+|---|---|---|
+| Claude Code | `~/.claude/skills/<name>/` | `.claude/skills/<name>/` |
+| Codex CLI | `~/.codex/skills/<name>/` | `.codex/skills/<name>/` |
+| opencode | `~/.config/opencode/skills/<name>/` | `.opencode/skills/<name>/` |
+| Pi | `~/.pi/agent/skills/<name>/` | `.pi/skills/<name>/` |
+| Gemini CLI | `~/.gemini/skills/<name>/` | `.gemini/skills/<name>/` |
+
+opencode는 `~/.claude/skills/`와 `~/.agents/skills/`도 같이 읽으니, Claude Code에만 넣어도 자동으로 잡힌다. Gemini CLI도 `~/.agents/skills/`를 별칭으로 본다.
+
+### 설치 확인
+
+```bash
+gemini skills list
+```
+
+opencode는 실행 후 skill 목록에 `jwejweiya`가 뜨면 된다. 안 뜨면 `SKILL.md` 대문자 표기와 frontmatter의 `name`·`description`부터 확인.
+
+### 프로젝트에만 넣기
+
+레포 안에서만 쓰고 싶으면 프로젝트 경로에 넣는다.
+
+```bash
+mkdir -p .claude/skills
+cp -r ~/skills/jwejweiya .claude/skills/jwejweiya
+```
 
 ## 구성
 
